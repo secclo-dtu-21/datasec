@@ -1,0 +1,25 @@
+Protocol: Selfie
+
+# The constant "wa" (for "workaround") to work around a bug in OFMC: inserting this constant in the last message just makes the "inner Mac" distinct from the "outer Mac". (The translation from AnB to OFMC's internal representation gets a bit confused otherwise.)
+
+Types: Agent A,B;
+       Number N1,N2,wa;
+       Function secretk,mac,kdf
+
+Knowledge: A: A,B,exp(exp(g,secretk(A)),secretk(B)),mac,kdf,wa;
+	   B: A,B,exp(exp(g,secretk(A)),secretk(B)),mac,kdf,wa;
+
+Actions:
+
+A->B: N1
+B->A: N2, mac(kdf(exp(exp(g,secretk(A)),secretk(B)),N1,N2),
+               N1,N2)
+A->B: A,B,    mac(kdf(exp(exp(g,secretk(A)),secretk(B)),N1,N2),wa,
+               N1,N2,mac(kdf(exp(exp(g,secretk(A)),secretk(B)),N1,N2),N1,N2))
+Goals:
+
+B authenticates A on N1
+A authenticates B on N2
+kdf(exp(exp(g,secretk(A)),secretk(B)),N1,N2) secret between A,B
+
+

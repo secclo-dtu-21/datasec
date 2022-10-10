@@ -11,9 +11,9 @@ Knowledge: A: A,B,exp(exp(g,secretk(A)),secretk(B)),mac,kdf,wa;
 
 Actions:
 
-A->B:  N1,    mac(exp(exp(g,secretk(A)),secretk(B)),A,N1)
+A->B:  N1
 B->A:  N2,    mac(kdf(exp(exp(g,secretk(A)),secretk(B)),N1,N2),
-                     N1,N2)
+                     N1,N2,B)
 A->B:  A,B,   mac(kdf(exp(exp(g,secretk(A)),secretk(B)),N1,N2),wa,
                      N1,N2,
                      mac(kdf(exp(exp(g,secretk(A)),secretk(B)),N1,N2),N1,N2))

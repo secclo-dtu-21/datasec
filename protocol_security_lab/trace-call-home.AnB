@@ -1,0 +1,80 @@
+ATTACK TRACE:
+
+STEP 1
+(A,1) -> i{B}: 
+            A,
+            B,
+            exp(g,X(1)),
+            mac(pw(A,home),m1,A,B,exp(g,X(1)))
+
+STEP 2
+i{A} -> (B,1): A,
+            B,
+            g,
+            RAND_MAC
+
+STEP 3
+(B,1) -> i{HOME}: 
+            A,
+            B,
+            g,
+            RAND_MAC,
+            B,
+            g,
+            exp(g,Y(2)),
+            mac(pw(B,home),m2,A,B,g,RAND_MAC,B,g,exp(g,Y(2)))
+
+STEP 4
+i {A} -> (B,2): 
+            A,
+            B,
+            exp(g,X(1)),
+            mac(pw(A,home),m1,A,B,exp(g,X(1)))
+
+STEP 5
+(B,2) -> i{HOME}: 
+            A,
+            B,
+            exp(g,X(1)),
+            mac(pw(A,home),m1,A,B,exp(g,X(1))),
+            B,
+            exp(g,X(1)),
+            exp(g,Y(3)),
+            mac(pw(B,home),m2,A,B,exp(g,X(1)),mac(pw(A,home),m1,A,B,exp(g,X(1))),B,exp(g,X(1)),exp(g,Y(3)))
+
+STEP 6
+i{B} -> (home,1): 
+            A,
+            B,
+            exp(g,X(1)),
+            mac(pw(A,home),m1,A,B,exp(g,X(1))),
+            B,
+            exp(g,X(1)),
+            exp(g,Y(3)),
+            mac(pw(B,home),m2,A,B,exp(g,X(1)),mac(pw(A,home),m1,A,B,exp(g,X(1))),B,exp(g,X(1)),exp(g,Y(3)))
+
+STEP 7
+(home,1) -> i{B,2}: 
+            B,
+            A,
+            mac(pw(A,home),m3,B,exp(g,X(1)),exp(g,Y(3))),
+            mac(pw(B,home),m4,B,A,mac(pw(A,home),m3,B,exp(g,X(1)),exp(g,Y(3))))
+
+STEP 8
+i{HOME} -> (B,1): 
+            B,
+            A,
+            mac(pw(A,home),m3,B,exp(g,X(1)),exp(g,Y(3))),
+            mac(pw(B,home),m4,B,A,   mac(pw(A,home),m3,B,exp(g,X(1)),exp(g,Y(3))))
+
+STEP 9
+(B,1) -> i{A}: 
+            B,
+            A,
+            exp(g,Y(2)),
+            mac(pw(A,home),m3,B,exp(g,X(1)),exp(g,Y(3))),
+            mac(exp(g,Y(2)),m5,B,A,exp(g,Y(2)),mac(pw(A,home),m3,B,exp(g,X(1)),exp(g,Y(3))))
+
+STEP 10
+i{A} -> (B,1): 
+            {|M|}_(exp(g,Y(2)))

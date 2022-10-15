@@ -52,4 +52,15 @@ public class Printer {
         queue.add(0, target);
         logger.info(String.format("%s-The %dth job has been moved to the top", this.name, job));
     }
+
+    public void clearQueue() {
+        queue.clear();
+        logger.info(String.format("%s-The Queue is cleared", this.name));
+    }
+
+    public int getStatus() {
+        int size = queue.size();
+        logger.info(String.format("%s-There are %d tasks in the Queue", this.name, size));
+        return size;
+    }
 }

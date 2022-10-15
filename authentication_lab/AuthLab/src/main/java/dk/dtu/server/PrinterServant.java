@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 public class PrinterServant extends UnicastRemoteObject implements PrinterService {
     private static final Logger logger = LogManager.getLogger(PrinterServant.class);
     private List<Printer> printers;
+    private boolean isStart = false;
 
     protected PrinterServant() throws RemoteException {
         printers = new ArrayList<>();
@@ -22,6 +23,9 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 
     @Override
     public String print(String filename, String printer) throws RemoteException {
+        if (!isStart) {
+            return "The print server is not started";
+        }
         for (var p : printers) {
             if (p.getName().equals(printer)) {
                 p.addFile(filename);
@@ -33,6 +37,9 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 
     @Override
     public String queue(String printer) throws RemoteException {
+        if (!isStart) {
+            return "The print server is not started";
+        }
         for (var p : printers) {
             if (p.getName().equals(printer)) {
                 p.listQueue();
@@ -44,6 +51,9 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 
     @Override
     public String topQueue(String printer, int job) throws RemoteException {
+        if (!isStart) {
+            return "The print server is not started";
+        }
         for (var p : printers) {
             if (p.getName().equals(printer)) {
                 p.topQueue(job);
@@ -55,22 +65,46 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 
     @Override
     public String start() throws RemoteException {
-        return "";
+        if (isStart) {
+            return "The printer server is already started";
+        }
+        isStart = true;
+        return "Success";
     }
 
     @Override
     public String stop() throws RemoteException {
-        return null;
+        if (!isStart) {
+            return "The print server is not started";
+        }
+        isStart = false;
+        return "Success";
     }
 
     @Override
     public String restart() throws RemoteException {
-        return null;
+        if (!isStart) {
+            return "The print server is not started";
+        }
+        isStart = false;
+        for (var p : printers) {
+            p.clearQueue();
+        }
+        return "Success";
     }
 
     @Override
     public String status(String printer) throws RemoteException {
-        return null;
+        if (!isStart) {
+            return "The print server is not started";
+        }
+        for (var p : printers) {
+            if (p.getName().equals(printer)) {
+                int status = p.getStatus();
+                return printer + " has " + status + " tasks.";
+            }
+        }
+        return "Can not find the specified printer";
     }
 
     @Override

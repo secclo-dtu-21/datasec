@@ -35,7 +35,7 @@ public class Printer {
 
     public void addFile(String filename) {
         queue.add(filename);
-        logger.info(String.format("%s-%s has been added o the printing queue", this.name, filename));
+        logger.info(String.format("%s-%s has been added to the printing queue", this.name, filename));
     }
 
     public void listQueue() {

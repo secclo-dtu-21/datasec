@@ -41,9 +41,14 @@ public class Printer {
     public void listQueue() {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%s-The current tasks are: \n", this.name));
-        for (int i = 0; i < queue.size(); i++) {
-            sb.append(String.format("<%d> <%s>\n", i + 1, queue.get(i)));
+        if (queue.size() == 0) {
+            sb.append("None");
+        } else {
+            for (int i = 0; i < queue.size(); i++) {
+                sb.append(String.format("<%d> <%s>\n", i + 1, queue.get(i)));
+            }
         }
+
         logger.info(sb.toString());
     }
 
@@ -63,4 +68,6 @@ public class Printer {
         logger.info(String.format("%s-There are %d tasks in the Queue", this.name, size));
         return size;
     }
+
+
 }

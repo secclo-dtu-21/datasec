@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="INFO">
     <Appenders>
-        <RollingFile name="fout" fileName="log4j2/logs/auth.log" filePattern="log4j2/logs/$${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.log">
+        <RollingFile name="fout" fileName="log4j2/logs/auth.log" filePattern="log4j2/logs/%d{yyyy-MM-dd}-%i.log">
             <PatternLayout>
                 <Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %m%n</Pattern>
             </PatternLayout>

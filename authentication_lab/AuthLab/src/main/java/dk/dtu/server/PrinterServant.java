@@ -1,17 +1,28 @@
 package dk.dtu.server;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
 import dk.dtu.server.entity.Printer;
 import dk.dtu.server.entity.Session;
+import dk.dtu.util.configuration.Configuration;
 import dk.dtu.util.repository.AuthRepository;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class PrinterServant extends UnicastRemoteObject implements PrinterService {
+    private static Configuration conf;
+
+    static {
+        try {
+            conf = Configuration.getInstance();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 	private static final Logger logger = LogManager.getLogger(PrinterServant.class);
 	private List<Printer> printers;
 	private HashMap<String, String> configs;
@@ -169,10 +180,12 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 	@Override
 	public String authenticate(String username, String password, int validSessionTime) throws RemoteException {
 		String passwordHash = authRepository.getUserPasswordHashByName(username);
-		if (passwordHash == null)
-			return "Invalid username";
-		if (!BCrypt.checkpw(password, passwordHash))
-			return "Authentication fail";
+		if (passwordHash == null) // Done so that the response always takes the same time
+			passwordHash = conf.getRandomHash(); // random value
+		if (!BCrypt.checkpw(password, passwordHash)) {
+			logger.info(String.format("Failed authentication request for username: \'%s\'", username));
+			return "Authentication fail: invalid username or password";
+		}
 		// If authentication success, return an uuid as cookie and add the associated
 		// session
 		String uuid = (UUID.randomUUID()).toString();

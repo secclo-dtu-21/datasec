@@ -17,6 +17,7 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 	private HashMap<String, String> configs;
 	private boolean isStart = false;
 	private Map<String, Session> sessions;
+	private Map<String, String> sessionUsernames;
 	private AuthRepository authRepository;
 
 	protected PrinterServant() throws RemoteException {
@@ -25,12 +26,13 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 		printers.add(new Printer("printer2"));
 		configs = new HashMap<>();
 		sessions = new HashMap<>();
+		sessionUsernames = new HashMap<>();
 		authRepository = new AuthRepository();
 	}
 
 	@Override
 	public String print(String filename, String printer, String cookie) throws RemoteException {
-		if (!isAuthenticated(cookie))
+		if (!isAuthenticated(cookie, "print"))
 			return "Please authenticate first";
 		if (!isStart)
 			return "The printing service is not started";
@@ -47,7 +49,7 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 
 	@Override
 	public String queue(String printer, String cookie) throws RemoteException {
-		if (!isAuthenticated(cookie))
+		if (!isAuthenticated(cookie, "queue"))
 			return "Please authenticate first";
 		if (!isStart)
 			return "The printing service is not started";
@@ -63,7 +65,7 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 
 	@Override
 	public String topQueue(String printer, int job, String cookie) throws RemoteException {
-		if (!isAuthenticated(cookie))
+		if (!isAuthenticated(cookie, "topQueue"))
 			return "Please authenticate first";
 		if (!isStart)
 			return "The print server is not started";
@@ -79,7 +81,7 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 
 	@Override
 	public String start(String cookie) throws RemoteException {
-		if (!isAuthenticated(cookie))
+		if (!isAuthenticated(cookie, "start"))
 			return "Please authenticate first";
 		if (isStart) {
 			return "The printing service is already started";
@@ -90,19 +92,20 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 
 	@Override
 	public String stop(String cookie) throws RemoteException {
-		if (!isAuthenticated(cookie))
+		if (!isAuthenticated(cookie, "stop"))
 			return "Please authenticate first";
 		if (!isStart) {
 			return "The printing service is not started";
 		}
 		isStart = false;
 		sessions.remove(cookie);
+		sessionUsernames.remove(cookie);
 		return "Service stop";
 	}
 
 	@Override
 	public String restart(String cookie) throws RemoteException {
-		if (!isAuthenticated(cookie))
+		if (!isAuthenticated(cookie, "restart"))
 			return "Please authenticate first";
 		if (!isStart) {
 			return "The printing service is not started";
@@ -112,12 +115,13 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 			p.clearQueue();
 		}
 		sessions.remove(cookie);
+		sessionUsernames.remove(cookie);
 		return "The printing service is restarted";
 	}
 
 	@Override
 	public String status(String printer, String cookie) throws RemoteException {
-		if (!isAuthenticated(cookie))
+		if (!isAuthenticated(cookie, "status"))
 			return "Please authenticate first";
 		if (!isStart) {
 			return "The specified print server is not started";
@@ -133,7 +137,7 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 
 	@Override
 	public String readConfig(String parameter, String cookie) throws RemoteException {
-		if (!isAuthenticated(cookie))
+		if (!isAuthenticated(cookie, "readConfig"))
 			return "Please authenticate first";
 		if (!isStart) {
 			return "The printing service is not started";
@@ -150,7 +154,7 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 
 	@Override
 	public String setConfig(String parameter, String value, String cookie) throws RemoteException {
-		if (!isAuthenticated(cookie))
+		if (!isAuthenticated(cookie, "setConfig"))
 			return "Please authenticate first";
 		if (!isStart) {
 			return "The printing service is not started";
@@ -169,23 +173,28 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 			return "Invalid username";
 		if (!BCrypt.checkpw(password, passwordHash))
 			return "Authentication fail";
-		// If authentication success, return an uuid as cookie and add the associated session
+		// If authentication success, return an uuid as cookie and add the associated
+		// session
 		String uuid = (UUID.randomUUID()).toString();
 		Session session = new Session(validSessionTime);
 		sessions.put(uuid, session);
+		sessionUsernames.put(uuid, username);
 
 		logger.info(String.format("User \'%s\' authenticate successfully", username));
 		return uuid;
 	}
 
-	private boolean isAuthenticated(String cookie) {
+	private boolean isAuthenticated(String cookie, String serviceName) {
 		if (!sessions.containsKey(cookie))
 			return false;
 		Session session = sessions.get(cookie);
 		if (!session.isAuthenticated()) {
 			sessions.remove(cookie);
+			sessionUsernames.remove(cookie);
 			return false;
 		}
+		logger.info(String.format("User \'%s\' is requesting the use of service \'%s\'", sessionUsernames.get(cookie),
+				serviceName));
 		return true;
 	}
 

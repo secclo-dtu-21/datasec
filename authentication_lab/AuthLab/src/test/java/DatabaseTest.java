@@ -1,10 +1,14 @@
 import dk.dtu.server.PrinterService;
+import dk.dtu.util.configuration.Configuration;
 import dk.dtu.util.repository.AuthRepository;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.mindrot.jbcrypt.BCrypt;
+
+import java.io.IOException;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -13,9 +17,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DatabaseTest {
 
-    private static String testUsername = "user1";
-    private static String testUserPassword = "passw0rd";
-    private int validSessionTime = 10;
+    private static Configuration conf;
+
+    static {
+        try {
+            conf = Configuration.getInstance();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static String testUsername = conf.getTestUsername();
+    private static String testUserPassword = conf.getTestUserPassword();
     private static AuthRepository authRepository = new AuthRepository();
 
     @Test

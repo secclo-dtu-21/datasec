@@ -182,7 +182,11 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 		if (!sessions.containsKey(cookie))
 			return false;
 		Session session = sessions.get(cookie);
-		return session.isAuthenticated();
+		if (!session.isAuthenticated()) {
+			sessions.remove(cookie);
+			return false;
+		}
+		return true;
 	}
 
 }

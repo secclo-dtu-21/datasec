@@ -24,7 +24,7 @@ public class Client {
 	}
 	private static final String url = conf.getServiceUrl();
 	private static final String testUsername = conf.getTestUsername();
-	private static final String testUserPassword = conf.getTestUserPassword();
+	private static final String testUserPassword = conf.getTestUserPassword() ;
 	private static final AuthRepository authRepository = new AuthRepository();
 	private static final int validSessionTime = conf.getValidSessionTime();
 

@@ -73,7 +73,7 @@ public class AuthenticationTest {
     public void authenticate_withSession_receiveSuccess() throws RemoteException {
         String cookie = printer.authenticate(testUsername, testUserPassword, validSessionTime);
         String result = printer.start(cookie);
-        assertThat(result).isEqualTo("Success");
+        assertThat(result).isEqualTo("The printing service is started");
     }
 
     @Test

@@ -54,13 +54,13 @@ public class AuthenticationTest {
     @Test
     public void authenticate_withInvalidCredentials_receiveFailure() throws RemoteException {
         String response = printer.authenticate(testUsername, "wrongPassword", validSessionTime);
-        assertThat(response).isEqualTo("Authentication fail");
+        assertThat(response).isEqualTo("Authentication fail: invalid username or password");
     }
 
     @Test
     public void authenticate_withInvalidUsername_receiveFailure() throws RemoteException {
         String response = printer.authenticate(testUsername + "fake", testUserPassword, validSessionTime);
-        assertThat(response).isEqualTo("Invalid username");
+        assertThat(response).isEqualTo("Authentication fail: invalid username or password");
     }
 
     @Test

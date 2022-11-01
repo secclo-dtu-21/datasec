@@ -182,7 +182,7 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 		String passwordHash = authRepository.getUserPasswordHashByName(username);
 		if (passwordHash == null) // Done so that the response always takes the same time
 			passwordHash = conf.getRandomHash(); // random value
-		if (!BCrypt.checkpw(password, passwordHash)) {
+		if (!BCrypt.checkpw(password, passwordHash) || passwordHash == null) {
 			logger.info(String.format("Failed authentication request for username: \'%s\'", username));
 			return "Authentication fail: invalid username or password";
 		}

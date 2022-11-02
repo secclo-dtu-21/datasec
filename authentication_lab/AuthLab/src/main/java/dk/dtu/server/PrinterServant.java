@@ -3,26 +3,31 @@ package dk.dtu.server;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import dk.dtu.server.entity.Printer;
 import dk.dtu.server.entity.Session;
 import dk.dtu.util.configuration.Configuration;
 import dk.dtu.util.repository.AuthRepository;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-import org.mindrot.jbcrypt.BCrypt;
+import dk.dtu.util.repository.CryptoWrapper;
 
 public class PrinterServant extends UnicastRemoteObject implements PrinterService {
-    private static Configuration conf;
+	private static Configuration conf;
 
-    static {
-        try {
-            conf = Configuration.getInstance();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	static {
+		try {
+			conf = Configuration.getInstance();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 	private static final Logger logger = LogManager.getLogger(PrinterServant.class);
 	private List<Printer> printers;
 	private HashMap<String, String> configs;
@@ -179,10 +184,13 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 
 	@Override
 	public String authenticate(String username, String password, int validSessionTime) throws RemoteException {
+		// get value from db
 		String passwordHash = authRepository.getUserPasswordHashByName(username);
+
 		if (passwordHash == null) // Done so that the response always takes the same time
 			passwordHash = conf.getRandomHash(); // random value
-		if (!BCrypt.checkpw(password, passwordHash) || passwordHash == null) {
+
+		if (!CryptoWrapper.checkAuthKey(password, passwordHash)) {
 			logger.info(String.format("Failed authentication request for username: \'%s\'", username));
 			return "Authentication fail: invalid username or password";
 		}

@@ -1,15 +1,18 @@
 package dk.dtu.client;
 
-import dk.dtu.server.PrinterService;
-import dk.dtu.util.configuration.Configuration;
-import dk.dtu.util.repository.AuthRepository;
-import org.mindrot.jbcrypt.BCrypt;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.security.NoSuchAlgorithmException;
+
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
+import de.mkammerer.argon2.Argon2Factory.Argon2Types;
+import dk.dtu.server.PrinterService;
+import dk.dtu.util.configuration.Configuration;
+import dk.dtu.util.repository.AuthRepository;
 
 public class Client {
 
@@ -24,13 +27,20 @@ public class Client {
 	}
 	private static final String url = conf.getServiceUrl();
 	private static final String testUsername = conf.getTestUsername();
-	private static final String testUserPassword = conf.getTestUserPassword() ;
+	private static final String testUserPassword = conf.getTestUserPassword();
 	private static final AuthRepository authRepository = new AuthRepository();
 	private static final int validSessionTime = conf.getValidSessionTime();
 
-	public static void main(String[] args) throws MalformedURLException, NotBoundException, RemoteException {
+	public static void main(String[] args)
+			throws MalformedURLException, NotBoundException, RemoteException, NoSuchAlgorithmException {
+
+		Argon2 argon2 = Argon2Factory.create(Argon2Types.ARGON2id);
+		// OWASP recommendation:
+		// iteration count = 2, memory = 15 MiB, degree of parallelism = 1
+		String pwHash = argon2.hash(2, 15 * 1024, 1, testUserPassword.toCharArray());
+
 		// Add test user to database
-		authRepository.addUser(testUsername, BCrypt.hashpw(testUserPassword, BCrypt.gensalt()));
+		authRepository.addUser(testUsername, pwHash);
 
 		// The following codes describe a typical procedure to use the printing service
 		PrinterService printer = (PrinterService) Naming.lookup(url + "/printer");
@@ -56,6 +66,5 @@ public class Client {
 		// Clear the database
 		authRepository.clearDatabase();
 	}
-
 
 }

@@ -1,13 +1,32 @@
 package dk.dtu.util.repository;
 
+import dk.dtu.util.configuration.Configuration;
+
+import java.io.IOException;
 import java.sql.*;
 
 public class AuthRepository {
-    String url = "jdbc:postgresql://mouse.db.elephantsql.com:5432/ravvvhek";
-    String dbUsername = "ravvvhek";
-    String password = "BEd3TPp5KhemuMmKE2WMnCwjTc9-abir";
+
+    private static Configuration conf;
+
+    static {
+        try {
+            conf = Configuration.getInstance();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    String url = conf.getDBeUrl();
+    String dbUsername = conf.getDBUsername();
+    String password = conf.getDBPassword();
 
     public int addUser(String username, String passwordhash) {
+
+        System.out.println(url);
+        System.out.println(dbUsername);
+        System.out.println(password);
+
         int result = 0;
         try {
             Connection conn = DriverManager.getConnection(url, dbUsername, password);

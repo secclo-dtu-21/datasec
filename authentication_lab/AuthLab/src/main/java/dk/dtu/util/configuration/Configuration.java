@@ -14,7 +14,8 @@ public class Configuration {
 		InputStream userPropertiesStream = this.getClass().getClassLoader().getResourceAsStream("user.properties");
 		InputStream servicePropertiesStream = this.getClass().getClassLoader()
 				.getResourceAsStream("service.properties");
-		InputStream databasePropertiesStream = this.getClass().getClassLoader().getResourceAsStream("database.properties");
+		InputStream databasePropertiesStream = this.getClass().getClassLoader()
+				.getResourceAsStream("database.properties");
 		userProperties.load(userPropertiesStream);
 		serviceProperties.load(servicePropertiesStream);
 		databaseProperties.load(databasePropertiesStream);
@@ -55,15 +56,15 @@ public class Configuration {
 	}
 
 	public String getDBeUrl() {
-		return (String)databaseProperties.getProperty("url");
+		return (String) databaseProperties.getProperty("url");
 	}
 
 	public String getDBUsername() {
-		return (String)databaseProperties.getProperty("dbUsername");
+		return (String) databaseProperties.getProperty("dbUsername");
 	}
 
 	public String getDBPassword() {
-		return (String)databaseProperties.getProperty("password");
+		return (String) databaseProperties.getProperty("password");
 	}
 
 }

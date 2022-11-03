@@ -1,20 +1,16 @@
 package dk.dtu.util.repository;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+
+import org.apache.commons.codec.binary.Hex;
 import org.mindrot.jbcrypt.BCrypt;
 
-import de.mkammerer.argon2.Argon2;
-import de.mkammerer.argon2.Argon2Factory;
-import de.mkammerer.argon2.Argon2Factory.Argon2Types;
-
 public class CryptoWrapper {
-
-	public static String hashUserPwPBKDF(String pw) {
-		Argon2 argon2 = Argon2Factory.create(Argon2Types.ARGON2id);
-		// OWASP recommendation:
-		// iteration count = 2, memory = 15 MiB, degree of parallelism = 1
-		String pwHash = argon2.hash(2, 15 * 1024, 1, pw.toCharArray());
-		return pwHash;
-	}
 
 	public static String hashSaltAuthKey(String key) {
 		return BCrypt.hashpw(key, BCrypt.gensalt());
@@ -23,10 +19,35 @@ public class CryptoWrapper {
 	/**
 	 * 
 	 * @param userHash the input from the user
-	 * @param dbHash the stored value from DB
+	 * @param dbHash   the stored value from DB
 	 * @return
 	 */
 	public static boolean checkAuthKey(String userHash, String dbHash) {
-		return BCrypt.checkpw(userHash, dbHash) || userHash == null
+		try {
+			return BCrypt.checkpw(userHash, dbHash) || userHash == null;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public static String hashUserPwPBKDF(final String pwStr) {
+		final int iterations = 100000;
+		final int keyLength = 256;
+
+		final char[] password = pwStr.toCharArray();
+		final byte[] salt = pwStr.getBytes();
+
+		try {
+			SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
+			PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, keyLength);
+			SecretKey key = skf.generateSecret(spec);
+
+			byte[] res = key.getEncoded();
+			String hash = Hex.encodeHexString(res);
+			return hash;
+
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

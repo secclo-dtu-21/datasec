@@ -77,8 +77,9 @@ This project is a preliminary simulation of a printing service integrated a data
 # How to Run the Application
 
 1. Open IntelliJ Idea and import the project.
-2. Install all the dependencies defined in `build.gradle`.
+2. Install all the dependencies defined in `build.gradle`. This should be down by Idea automatically.
 
-3. Run the class `ApplicationServer.java` under the package dk.dtu.server, which start the printing service.
-4. Run the class `Client.java` under the package dk.dtu.client, which sinulates the operations that could be launched by the user.
-5. The test are under the test/java directory, to run the AuthenticationTest, please run the ApplciationServer class first.
+3. Run the class `ApplicationServer.java` under the package dk.dtu.server, which starts the printing service.
+4. Run the class `Client.java` under the package dk.dtu.client, which simulates the operations that could be launched by the user.
+5. The test are under the `test/java` directory, to run the AuthenticationTest, please run the ApplciationServer class first.
+6. If you want to check the logs, go to the folder `log4j2/logs`, the latest logs are in the file `auth.log`. Old logs will be achived according to date. (You can also check our old logs there)

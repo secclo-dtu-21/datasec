@@ -27,10 +27,6 @@ public class AuthRepository {
 
 	public int addUser(String username, String passwordhash) {
 
-		System.out.println(url);
-		System.out.println(dbUsername);
-		System.out.println(password);
-
 		int result = 0;
 		try {
 			Connection conn = DriverManager.getConnection(url, dbUsername, password);

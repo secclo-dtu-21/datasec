@@ -1,0 +1,6 @@
+2022-11-03 09:47:38 INFO  User 'user1' authenticate successfully
+2022-11-03 09:47:48 INFO  User 'user1' authenticate successfully
+2022-11-03 09:47:48 INFO  User 'user1' is requesting the use of service 'start'
+2022-11-03 09:47:48 INFO  User 'user1' authenticate successfully
+2022-11-03 09:47:49 INFO  Failed authentication request for username: 'user1'
+2022-11-03 09:47:49 INFO  Failed authentication request for username: 'user1fake'

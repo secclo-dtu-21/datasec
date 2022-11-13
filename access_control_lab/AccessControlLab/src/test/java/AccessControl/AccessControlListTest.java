@@ -18,7 +18,11 @@ import static org.assertj.core.api.Assertions.assertThat;
  * This class contains the test for the access control list mechanism. Before running tests in this class
  * make sure that the access control model has been configured to accessControlList. Namely, in this format:
  * accessControlModel = accessControlList
+ *
+ * Note, these tests are arranged in certain order to make sure the consistency of the tests, they should not
+ * be changed.
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AccessControlListTest {
 
     private static Configuration conf;
@@ -49,16 +53,21 @@ public class AccessControlListTest {
     }
 
     @Test
-    @Order(1)
+    @Order(4)
     public void testWithUserNameAlice() throws RemoteException {
         testUsername = "Alice";
         String testUserHashedPw = CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword);
         authRepository.addUser(testUsername, CryptoWrapper.hashSaltAuthKey(testUserHashedPw));
 
         String cookie = printer.authenticate(testUsername, CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword), validSessionTime);
-        assertThat(cookie.matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")).isTrue();
+        /* stop allowed*/
+        String  response = printer.stop(cookie);
+        assertThat(response).isEqualTo("Service stop");
+
+        cookie = printer.authenticate(testUsername, CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword), validSessionTime);
+
         /* start allowed*/
-        String response = printer.start(cookie);
+        response = printer.start(cookie);
         assertThat(response).isEqualTo("The printing service is started");
         /* print allowed*/
         response = printer.print("test1_Alice", "printer1", cookie);
@@ -85,13 +94,12 @@ public class AccessControlListTest {
         /* readConfig allowed*/
         response = printer.readConfig("paramAlice", cookie);
         assertThat(response.contains("paramAlice")).isTrue();
-        /* stop allowed*/
-        response = printer.stop(cookie);
-        assertThat(response).isEqualTo("Service stop");
+
+        printer.stop(cookie);
     }
 
     @Test
-    @Order(2)
+    @Order(1)
     public void testWithUsernameBob() throws RemoteException {
         testUsername = "Bob";
         String testUserHashedPw = CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword);
@@ -136,7 +144,7 @@ public class AccessControlListTest {
     }
 
     @Test
-    @Order(3)
+    @Order(2)
     public void testWithUsernameCecilia() throws RemoteException {
         testUsername = "Cecilia";
         String testUserHashedPw = CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword);
@@ -183,7 +191,7 @@ public class AccessControlListTest {
      * @throws RemoteException
      */
     @Test
-    @Order(4)
+    @Order(3)
     public void testWithUsernameDavid() throws RemoteException {
         testUsername = "David";
         String testUserHashedPw = CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword);

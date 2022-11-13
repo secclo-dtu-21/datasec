@@ -47,11 +47,6 @@ public class Configuration {
 		return Integer.parseInt((String) userProperties.get("validSessionTime"));
 	}
 
-	public List<String> getUserInfoForAccessControlList() {
-		String[] userInfoForAccessControlLists = ((String) userProperties.get("userInfoForAccessControlList")).split(", ");
-		return new ArrayList<>(Arrays.asList(userInfoForAccessControlLists));
-	}
-
 	/* Get information defined in the service.properties file */
 	public int getServicePort() {
 		return Integer.parseInt((String) serviceProperties.get("port"));

@@ -21,7 +21,7 @@ public class AuthRepository {
 		}
 	}
 
-	String url = conf.getDBeUrl();
+	String url = conf.getDBUrl();
 	String dbUsername = conf.getDBUsername();
 	String password = conf.getDBPassword();
 

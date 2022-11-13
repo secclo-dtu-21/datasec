@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import dk.dtu.security.AccessControlList;
+import dk.dtu.security.AccessControlModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,6 +37,8 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 	private Map<String, Session> sessions;
 	private Map<String, String> sessionUsernames;
 	private AuthRepository authRepository;
+	private String definedAccessControlModel = conf.getAccessControlModel();
+	private AccessControlModel accessControlModel;
 
 	protected PrinterServant() throws RemoteException {
 		printers = new ArrayList<>();
@@ -44,6 +48,11 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 		sessions = new HashMap<>();
 		sessionUsernames = new HashMap<>();
 		authRepository = new AuthRepository();
+
+		// Set Access Control Mechanism
+		if (definedAccessControlModel.equals("accessControlList")) {
+			accessControlModel = new AccessControlList();
+		}
 	}
 
 	@Override
@@ -52,6 +61,11 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 			return "Please authenticate first";
 		if (!isStart)
 			return "The printing service is not started";
+
+		String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+		String userName = sessionUsernames.get(cookie);
+		if (!accessControlModel.isMethodGranted(userName, methodName))
+			return "You are not allowed to perform this operation";
 
 		for (var p : printers) {
 			if (p.getName().equals(printer)) {
@@ -70,6 +84,11 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 		if (!isStart)
 			return "The printing service is not started";
 
+		String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+		String userName = sessionUsernames.get(cookie);
+		if (!accessControlModel.isMethodGranted(userName, methodName))
+			return "You are not allowed to perform this operation";
+
 		for (var p : printers) {
 			if (p.getName().equals(printer)) {
 				p.listQueue();
@@ -86,6 +105,11 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 		if (!isStart)
 			return "The print server is not started";
 
+		String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+		String userName = sessionUsernames.get(cookie);
+		if (!accessControlModel.isMethodGranted(userName, methodName))
+			return "You are not allowed to perform this operation";
+
 		for (var p : printers) {
 			if (p.getName().equals(printer)) {
 				p.topQueue(job);
@@ -99,9 +123,16 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 	public String start(String cookie) throws RemoteException {
 		if (!isAuthenticated(cookie, "start"))
 			return "Please authenticate first";
+
+		String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+		String userName = sessionUsernames.get(cookie);
+		if (!accessControlModel.isMethodGranted(userName, methodName))
+			return "You are not allowed to perform this operation";
+
 		if (isStart) {
 			return "The printing service is already started";
 		}
+
 		isStart = true;
 		return "The printing service is started";
 	}
@@ -113,6 +144,12 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 		if (!isStart) {
 			return "The printing service is not started";
 		}
+
+		String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+		String userName = sessionUsernames.get(cookie);
+		if (!accessControlModel.isMethodGranted(userName, methodName))
+			return "You are not allowed to perform this operation";
+
 		isStart = false;
 		sessions.remove(cookie);
 		sessionUsernames.remove(cookie);
@@ -126,6 +163,11 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 		if (!isStart) {
 			return "The printing service is not started";
 		}
+
+		String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+		String userName = sessionUsernames.get(cookie);
+		if (!accessControlModel.isMethodGranted(userName, methodName))
+			return "You are not allowed to perform this operation";
 
 		for (var p : printers) {
 			p.clearQueue();
@@ -142,6 +184,12 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 		if (!isStart) {
 			return "The specified print server is not started";
 		}
+
+		String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+		String userName = sessionUsernames.get(cookie);
+		if (!accessControlModel.isMethodGranted(userName, methodName))
+			return "You are not allowed to perform this operation";
+
 		for (var p : printers) {
 			if (p.getName().equals(printer)) {
 				int status = p.getStatus();
@@ -158,6 +206,12 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 		if (!isStart) {
 			return "The printing service is not started";
 		}
+
+		String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+		String userName = sessionUsernames.get(cookie);
+		if (!accessControlModel.isMethodGranted(userName, methodName))
+			return "You are not allowed to perform this operation";
+
 		if (configs.containsKey(parameter)) {
 			logger.info(String.format("The value of the %s configuration is %s.", parameter, configs.get(parameter)));
 			return String.format("The value of the parameter \'%s\' is written to log", parameter);
@@ -175,6 +229,12 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 		if (!isStart) {
 			return "The printing service is not started";
 		}
+
+		String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+		String userName = sessionUsernames.get(cookie);
+		if (!accessControlModel.isMethodGranted(userName, methodName))
+			return "You are not allowed to perform this operation";
+
 		configs.put(parameter, value);
 
 		String success = String.format("The \'%s\' configuration has been set to \'%s\'", parameter, value);
@@ -194,8 +254,7 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 			logger.info(String.format("Failed authentication request for username: \'%s\'", username));
 			return "Authentication fail: invalid username or password";
 		}
-		// If authentication success, return an uuid as cookie and add the associated
-		// session
+		// If authentication success, return an uuid as cookie and add the associated session
 		String uuid = (UUID.randomUUID()).toString();
 		Session session = new Session(validSessionTime);
 		sessions.put(uuid, session);

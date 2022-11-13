@@ -2,6 +2,9 @@ package dk.dtu.util.configuration;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 public class Configuration {
@@ -31,6 +34,7 @@ public class Configuration {
 		return instance;
 	}
 
+	/* Get the information defined in the user.properties file */
 	public String getTestUsername() {
 		return (String) userProperties.get("testUsername");
 	}
@@ -43,6 +47,12 @@ public class Configuration {
 		return Integer.parseInt((String) userProperties.get("validSessionTime"));
 	}
 
+	public List<String> getUserInfoForAccessControlList() {
+		String[] userInfoForAccessControlLists = ((String) userProperties.get("userInfoForAccessControlList")).split(", ");
+		return new ArrayList<>(Arrays.asList(userInfoForAccessControlLists));
+	}
+
+	/* Get information defined in the service.properties file */
 	public int getServicePort() {
 		return Integer.parseInt((String) serviceProperties.get("port"));
 	}
@@ -55,7 +65,12 @@ public class Configuration {
 		return (String) serviceProperties.get("randomHash");
 	}
 
-	public String getDBeUrl() {
+	public String getAccessControlModel() {
+		return (String) serviceProperties.get("accessControlModel");
+	}
+
+	/* Get the information defined in the database.properties file */
+	public String getDBUrl() {
 		return (String) databaseProperties.getProperty("url");
 	}
 

@@ -1,0 +1,150 @@
+2022-11-13 16:54:58 INFO  Failed authentication request for username: 'Alice'
+2022-11-13 17:08:03 INFO  User 'Alice' authenticate successfully
+2022-11-13 17:08:03 INFO  User 'Alice' is requesting the use of service 'start'
+2022-11-13 17:08:03 INFO  User 'Alice' is allowed to use service 'start'
+2022-11-13 17:08:03 INFO  User 'Alice' is requesting the use of service 'print'
+2022-11-13 17:08:04 INFO  User 'Alice' is allowed to use service 'print'
+2022-11-13 17:08:04 INFO  printer1-test1_Alice has been added to the printing queue
+2022-11-13 17:08:04 INFO  User 'Alice' is requesting the use of service 'queue'
+2022-11-13 17:08:04 INFO  User 'Alice' is allowed to use service 'queue'
+2022-11-13 17:08:04 INFO  printer1-The current tasks are: 
+<1> <test1_Alice>
+
+2022-11-13 17:08:04 INFO  User 'Alice' is requesting the use of service 'print'
+2022-11-13 17:08:04 INFO  User 'Alice' is allowed to use service 'print'
+2022-11-13 17:08:04 INFO  printer1-test2_Alice has been added to the printing queue
+2022-11-13 17:08:04 INFO  User 'Alice' is requesting the use of service 'topQueue'
+2022-11-13 17:08:04 INFO  User 'Alice' is allowed to use service 'topQueue'
+2022-11-13 17:08:04 INFO  printer1-The 2th job has been moved to the top
+2022-11-13 17:08:04 INFO  User 'Alice' is requesting the use of service 'status'
+2022-11-13 17:08:05 INFO  User 'Alice' is allowed to use service 'status'
+2022-11-13 17:08:05 INFO  printer1-There are 2 tasks in the Queue
+2022-11-13 17:08:05 INFO  User 'Alice' is requesting the use of service 'restart'
+2022-11-13 17:08:05 INFO  User 'Alice' is allowed to use service 'restart'
+2022-11-13 17:08:05 INFO  printer1-The Queue is cleared
+2022-11-13 17:08:05 INFO  printer2-The Queue is cleared
+2022-11-13 17:08:50 INFO  User 'Alice' authenticate successfully
+2022-11-13 17:08:50 INFO  User 'Alice' is requesting the use of service 'start'
+2022-11-13 17:08:50 INFO  User 'Alice' is allowed to use service 'start'
+2022-11-13 17:09:45 INFO  User 'Alice' authenticate successfully
+2022-11-13 17:09:45 INFO  User 'Alice' is requesting the use of service 'print'
+2022-11-13 17:09:45 INFO  User 'Alice' is allowed to use service 'print'
+2022-11-13 17:09:45 INFO  printer1-test1_Alice has been added to the printing queue
+2022-11-13 17:09:45 INFO  User 'Alice' is requesting the use of service 'queue'
+2022-11-13 17:09:46 INFO  User 'Alice' is allowed to use service 'queue'
+2022-11-13 17:09:46 INFO  printer1-The current tasks are: 
+<1> <test1_Alice>
+
+2022-11-13 17:09:46 INFO  User 'Alice' is requesting the use of service 'print'
+2022-11-13 17:09:46 INFO  User 'Alice' is allowed to use service 'print'
+2022-11-13 17:09:46 INFO  printer1-test2_Alice has been added to the printing queue
+2022-11-13 17:09:46 INFO  User 'Alice' is requesting the use of service 'topQueue'
+2022-11-13 17:09:46 INFO  User 'Alice' is allowed to use service 'topQueue'
+2022-11-13 17:09:46 INFO  printer1-The 2th job has been moved to the top
+2022-11-13 17:09:46 INFO  User 'Alice' is requesting the use of service 'status'
+2022-11-13 17:09:47 INFO  User 'Alice' is allowed to use service 'status'
+2022-11-13 17:09:47 INFO  printer1-There are 2 tasks in the Queue
+2022-11-13 17:09:47 INFO  User 'Alice' is requesting the use of service 'restart'
+2022-11-13 17:09:47 INFO  User 'Alice' is allowed to use service 'restart'
+2022-11-13 17:09:47 INFO  printer1-The Queue is cleared
+2022-11-13 17:09:47 INFO  printer2-The Queue is cleared
+2022-11-13 17:13:30 INFO  User 'Alice' authenticate successfully
+2022-11-13 17:13:30 INFO  User 'Alice' is requesting the use of service 'print'
+2022-11-13 17:13:30 INFO  User 'Alice' is allowed to use service 'print'
+2022-11-13 17:13:30 INFO  printer1-test1_Alice has been added to the printing queue
+2022-11-13 17:13:30 INFO  User 'Alice' is requesting the use of service 'queue'
+2022-11-13 17:13:30 INFO  User 'Alice' is allowed to use service 'queue'
+2022-11-13 17:13:30 INFO  printer1-The current tasks are: 
+<1> <test1_Alice>
+
+2022-11-13 17:13:30 INFO  User 'Alice' is requesting the use of service 'print'
+2022-11-13 17:13:31 INFO  User 'Alice' is allowed to use service 'print'
+2022-11-13 17:13:31 INFO  printer1-test2_Alice has been added to the printing queue
+2022-11-13 17:13:31 INFO  User 'Alice' is requesting the use of service 'topQueue'
+2022-11-13 17:13:31 INFO  User 'Alice' is allowed to use service 'topQueue'
+2022-11-13 17:13:31 INFO  printer1-The 2th job has been moved to the top
+2022-11-13 17:13:31 INFO  User 'Alice' is requesting the use of service 'status'
+2022-11-13 17:13:31 INFO  User 'Alice' is allowed to use service 'status'
+2022-11-13 17:13:31 INFO  printer1-There are 2 tasks in the Queue
+2022-11-13 17:13:31 INFO  User 'Alice' is requesting the use of service 'restart'
+2022-11-13 17:13:31 INFO  User 'Alice' is allowed to use service 'restart'
+2022-11-13 17:13:31 INFO  printer1-The Queue is cleared
+2022-11-13 17:13:31 INFO  printer2-The Queue is cleared
+2022-11-13 17:13:56 INFO  User 'Alice' authenticate successfully
+2022-11-13 17:13:56 INFO  User 'Alice' is requesting the use of service 'print'
+2022-11-13 17:14:43 INFO  User 'Alice' authenticate successfully
+2022-11-13 17:14:43 INFO  User 'Alice' is requesting the use of service 'print'
+2022-11-13 17:15:08 INFO  User 'Alice' authenticate successfully
+2022-11-13 17:15:08 INFO  User 'Alice' is requesting the use of service 'start'
+2022-11-13 17:15:08 INFO  User 'Alice' is allowed to use service 'start'
+2022-11-13 17:15:08 INFO  User 'Alice' is requesting the use of service 'print'
+2022-11-13 17:15:08 INFO  User 'Alice' is allowed to use service 'print'
+2022-11-13 17:15:08 INFO  printer1-test1_Alice has been added to the printing queue
+2022-11-13 17:15:08 INFO  User 'Alice' is requesting the use of service 'queue'
+2022-11-13 17:15:09 INFO  User 'Alice' is allowed to use service 'queue'
+2022-11-13 17:15:09 INFO  printer1-The current tasks are: 
+<1> <test1_Alice>
+
+2022-11-13 17:15:09 INFO  User 'Alice' is requesting the use of service 'print'
+2022-11-13 17:15:09 INFO  User 'Alice' is allowed to use service 'print'
+2022-11-13 17:15:09 INFO  printer1-test2_Alice has been added to the printing queue
+2022-11-13 17:15:09 INFO  User 'Alice' is requesting the use of service 'topQueue'
+2022-11-13 17:15:09 INFO  User 'Alice' is allowed to use service 'topQueue'
+2022-11-13 17:15:09 INFO  printer1-The 2th job has been moved to the top
+2022-11-13 17:15:09 INFO  User 'Alice' is requesting the use of service 'status'
+2022-11-13 17:15:09 INFO  User 'Alice' is allowed to use service 'status'
+2022-11-13 17:15:09 INFO  printer1-There are 2 tasks in the Queue
+2022-11-13 17:15:09 INFO  User 'Alice' is requesting the use of service 'restart'
+2022-11-13 17:15:10 INFO  User 'Alice' is allowed to use service 'restart'
+2022-11-13 17:15:10 INFO  printer1-The Queue is cleared
+2022-11-13 17:15:10 INFO  printer2-The Queue is cleared
+2022-11-13 17:16:52 INFO  User 'Alice' authenticate successfully
+2022-11-13 17:16:52 INFO  User 'Alice' is requesting the use of service 'start'
+2022-11-13 17:16:52 INFO  User 'Alice' is allowed to use service 'start'
+2022-11-13 17:17:20 INFO  User 'Alice' authenticate successfully
+2022-11-13 17:17:20 INFO  User 'Alice' is requesting the use of service 'print'
+2022-11-13 17:17:20 INFO  User 'Alice' is allowed to use service 'print'
+2022-11-13 17:17:20 INFO  printer1-test1_Alice has been added to the printing queue
+2022-11-13 17:17:20 INFO  User 'Alice' is requesting the use of service 'queue'
+2022-11-13 17:17:21 INFO  User 'Alice' is allowed to use service 'queue'
+2022-11-13 17:17:21 INFO  printer1-The current tasks are: 
+<1> <test1_Alice>
+
+2022-11-13 17:17:21 INFO  User 'Alice' is requesting the use of service 'print'
+2022-11-13 17:17:21 INFO  User 'Alice' is allowed to use service 'print'
+2022-11-13 17:17:21 INFO  printer1-test2_Alice has been added to the printing queue
+2022-11-13 17:17:21 INFO  User 'Alice' is requesting the use of service 'topQueue'
+2022-11-13 17:17:21 INFO  User 'Alice' is allowed to use service 'topQueue'
+2022-11-13 17:17:21 INFO  printer1-The 2th job has been moved to the top
+2022-11-13 17:17:21 INFO  User 'Alice' is requesting the use of service 'status'
+2022-11-13 17:17:21 INFO  User 'Alice' is allowed to use service 'status'
+2022-11-13 17:17:21 INFO  printer1-There are 2 tasks in the Queue
+2022-11-13 17:17:21 INFO  User 'Alice' is requesting the use of service 'restart'
+2022-11-13 17:17:22 INFO  User 'Alice' is allowed to use service 'restart'
+2022-11-13 17:17:22 INFO  printer1-The Queue is cleared
+2022-11-13 17:17:22 INFO  printer2-The Queue is cleared
+2022-11-13 17:21:23 INFO  User 'Alice' authenticate successfully
+2022-11-13 17:21:23 INFO  User 'Alice' is requesting the use of service 'start'
+2022-11-13 17:21:23 INFO  User 'Alice' is allowed to use service 'start'
+2022-11-13 17:21:23 INFO  User 'Alice' is requesting the use of service 'print'
+2022-11-13 17:21:24 INFO  User 'Alice' is allowed to use service 'print'
+2022-11-13 17:21:24 INFO  printer1-test1_Alice has been added to the printing queue
+2022-11-13 17:21:24 INFO  User 'Alice' is requesting the use of service 'queue'
+2022-11-13 17:21:24 INFO  User 'Alice' is allowed to use service 'queue'
+2022-11-13 17:21:24 INFO  printer1-The current tasks are: 
+<1> <test1_Alice>
+
+2022-11-13 17:21:24 INFO  User 'Alice' is requesting the use of service 'print'
+2022-11-13 17:21:24 INFO  User 'Alice' is allowed to use service 'print'
+2022-11-13 17:21:24 INFO  printer1-test2_Alice has been added to the printing queue
+2022-11-13 17:21:24 INFO  User 'Alice' is requesting the use of service 'topQueue'
+2022-11-13 17:21:25 INFO  User 'Alice' is allowed to use service 'topQueue'
+2022-11-13 17:21:25 INFO  printer1-The 2th job has been moved to the top
+2022-11-13 17:21:25 INFO  User 'Alice' is requesting the use of service 'status'
+2022-11-13 17:21:25 INFO  User 'Alice' is allowed to use service 'status'
+2022-11-13 17:21:25 INFO  printer1-There are 2 tasks in the Queue
+2022-11-13 17:21:25 INFO  User 'Alice' is requesting the use of service 'restart'
+2022-11-13 17:21:25 INFO  User 'Alice' is allowed to use service 'restart'
+2022-11-13 17:21:25 INFO  printer1-The Queue is cleared
+2022-11-13 17:21:25 INFO  printer2-The Queue is cleared
+2022-11-13 17:21:25 INFO  User 'Alice' authenticate successfully

@@ -14,8 +14,8 @@ import org.junit.jupiter.api.Test;
 
 import dk.dtu.server.PrinterService;
 import dk.dtu.util.configuration.Configuration;
-import dk.dtu.util.repository.AuthRepository;
-import dk.dtu.util.repository.CryptoWrapper;
+import dk.dtu.util.repository.UserRepository;
+import dk.dtu.util.cryto.CryptoWrapper;
 
 /**
  * Integration test of the printer system authentication
@@ -34,20 +34,20 @@ public class AuthenticationTest {
 	private static String testUsername = conf.getTestUsername();
 	private static String testUserPlaintextPassword = conf.getTestUserPassword();
 	private int validSessionTime = conf.getValidSessionTime();
-	private static AuthRepository authRepository = new AuthRepository();
+	private static UserRepository userRepository = new UserRepository();
 	private static final String url = conf.getServiceUrl();
 	static PrinterService printer;
 
 	@BeforeAll
 	public static void init() throws MalformedURLException, NotBoundException, RemoteException {
 		String testUserHashedPw = CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword);
-		authRepository.addUser(testUsername, CryptoWrapper.hashSaltAuthKey(testUserHashedPw));
+		userRepository.addUser(testUsername, "none", CryptoWrapper.hashSaltAuthKey(testUserHashedPw));
 		printer = (PrinterService) Naming.lookup(url + "/printer");
 	}
 
 	@AfterAll
 	public static void clean() {
-		authRepository.clearDatabase();
+		userRepository.clearDatabase();
 	}
 
 	@Test

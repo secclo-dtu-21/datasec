@@ -1,6 +1,5 @@
 package dk.dtu.security;
 
-import dk.dtu.server.PrinterServant;
 import dk.dtu.util.repository.AccessControlRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +14,7 @@ public class AccessControlList implements AccessControlModel {
     @Override
     public boolean isMethodGranted(String username, String method) {
         Map<String, Boolean> accessControlListByName = accessControlRepository.getAccessControlListByName(username);
-        Boolean result = accessControlListByName.get(method);
+        boolean result = accessControlListByName.get(method);
         if (result)
             logger.info(String.format("User \'%s\' is allowed to use service \'%s\'", username, method));
         else

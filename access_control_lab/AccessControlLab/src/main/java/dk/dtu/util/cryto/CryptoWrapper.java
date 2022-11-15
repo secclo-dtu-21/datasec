@@ -1,4 +1,4 @@
-package dk.dtu.util.repository;
+package dk.dtu.util.cryto;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;

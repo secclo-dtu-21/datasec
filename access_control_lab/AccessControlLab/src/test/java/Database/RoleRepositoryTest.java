@@ -1,22 +1,21 @@
 package Database;
 
-import dk.dtu.util.repository.AccessControlRepository;
+import dk.dtu.util.repository.RoleRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AccessControlListTableTest {
+public class RoleRepositoryTest {
 
-    private static AccessControlRepository accessControlRepository  = new AccessControlRepository();
+    private static final RoleRepository roleRepository  = new RoleRepository();
 
     @Test
     public void getAccessControlListByNameTest() {
-        Map<String, Boolean> accessControlList = accessControlRepository.getAccessControlListByName("Alice");
+        Map<String, Boolean> accessControlList = roleRepository.getAccessControlListByRole("manager");
         accessControlList.forEach((k, v) -> assertThat(v).isTrue());
         assertThat(accessControlList.size()).isEqualTo(9);
     }
-
 
 }

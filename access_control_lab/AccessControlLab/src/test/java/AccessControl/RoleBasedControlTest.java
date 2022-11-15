@@ -2,9 +2,8 @@ package AccessControl;
 
 import dk.dtu.server.PrinterService;
 import dk.dtu.util.configuration.Configuration;
-import dk.dtu.util.repository.AccessControlRepository;
-import dk.dtu.util.repository.UserRepository;
 import dk.dtu.util.cryto.CryptoWrapper;
+import dk.dtu.util.repository.UserRepository;
 import org.junit.jupiter.api.*;
 
 import java.io.IOException;
@@ -16,15 +15,15 @@ import java.rmi.RemoteException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * This class contains the test for the access control list mechanism. Before running tests in this class
- * make sure that the access control model has been configured to accessControlList. Namely, in this format:
- * accessControlModel = accessControlList
+ * This class contains the test for the role based control mechanism. Before running tests in this class
+ * make sure that the access control model has been configured to roleBasedAccessControl. Namely, in this format:
+ * accessControlModel = roleBasedAccessControl
  *
  * Note, these tests are arranged in certain order to make sure the consistency of the tests, they should not
  * be changed.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class AccessControlListTest {
+public class RoleBasedControlTest {
 
     private static final Configuration conf;
 
@@ -40,69 +39,17 @@ public class AccessControlListTest {
     static PrinterService printer;
     private static final String testUserPlaintextPassword = conf.getTestUserPassword();
     private static final UserRepository userRepository = new UserRepository();
-    private static final AccessControlRepository accessControlRepository = new AccessControlRepository();
     private final int validSessionTime = conf.getValidSessionTime();
     private static String testUsername;
 
     @BeforeAll
     public static void init() throws MalformedURLException, NotBoundException, RemoteException {
-        accessControlRepository.addAccessControlList("Alice", "111111111");
-        accessControlRepository.addAccessControlList("Bob", "000111111");
-        accessControlRepository.addAccessControlList("Cecilia", "111001000");
-        accessControlRepository.addAccessControlList("David", "110000000");
         printer = (PrinterService) Naming.lookup(url + "/printer");
     }
 
-    @AfterAll
-    public static void clean() {
+    @AfterEach
+    public void clean() {
         userRepository.clearDatabase();
-        accessControlRepository.clearDatabase();
-    }
-
-    @Test
-    @Order(4)
-    public void testWithUserNameAlice() throws RemoteException {
-        testUsername = "Alice";
-        String testUserHashedPw = CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword);
-        userRepository.addUser(testUsername, CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "none");
-
-        String cookie = printer.authenticate(testUsername, CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword), validSessionTime);
-        /* stop allowed*/
-        String  response = printer.stop(cookie);
-        assertThat(response).isEqualTo("Service stop");
-
-        cookie = printer.authenticate(testUsername, CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword), validSessionTime);
-
-        /* start allowed*/
-        response = printer.start(cookie);
-        assertThat(response).isEqualTo("The printing service is started");
-        /* print allowed*/
-        response = printer.print("test1_Alice", "printer1", cookie);
-        assertThat(response.contains("task has been added")).isTrue();
-        /* queue allowed*/
-        response = printer.queue("printer1", cookie);
-        assertThat(response).isEqualTo("Details are shown in log");
-        /* topQueue allowed*/
-        printer.print("test2_Alice", "printer1", cookie);
-        response = printer.topQueue("printer1", 2, cookie);
-        assertThat(response).isEqualTo("The specified job is moved");
-        /* status allowed*/
-        response = printer.status("printer1", cookie);
-        assertThat(response.contains("tasks")).isTrue();
-        /* restart allowed*/
-        response = printer.restart(cookie);
-        assertThat(response).isEqualTo("The printing service is restarted");
-
-        cookie = printer.authenticate(testUsername, CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword), validSessionTime);
-
-        /* setConfig allowed*/
-        response = printer.setConfig("paramAlice", "Alice", cookie);
-        assertThat(response.contains("configuration has been")).isTrue();
-        /* readConfig allowed*/
-        response = printer.readConfig("paramAlice", cookie);
-        assertThat(response.contains("paramAlice")).isTrue();
-
-        printer.stop(cookie);
     }
 
     @Test
@@ -110,7 +57,7 @@ public class AccessControlListTest {
     public void testWithUsernameBob() throws RemoteException {
         testUsername = "Bob";
         String testUserHashedPw = CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword);
-        userRepository.addUser(testUsername, CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "none");
+        userRepository.addUser(testUsername, CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "janitor&service_tech");
 
         String cookie = printer.authenticate(testUsername, CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword), validSessionTime);
         assertThat(cookie.matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")).isTrue();
@@ -155,7 +102,7 @@ public class AccessControlListTest {
     public void testWithUsernameCecilia() throws RemoteException {
         testUsername = "Cecilia";
         String testUserHashedPw = CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword);
-        userRepository.addUser(testUsername, CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "none");
+        userRepository.addUser(testUsername, CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "power_user");
 
         String cookie = printer.authenticate(testUsername, CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword), validSessionTime);
         assertThat(cookie.matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")).isTrue();
@@ -202,7 +149,8 @@ public class AccessControlListTest {
     public void testWithUsernameDavid() throws RemoteException {
         testUsername = "David";
         String testUserHashedPw = CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword);
-        userRepository.addUser("David", CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "none");
+        userRepository.addUser(testUsername, CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "ordinary_user");
+
         String cookie = printer.authenticate(testUsername, CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword), validSessionTime);
         assertThat(cookie.matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")).isTrue();
         /* start rejected*/
@@ -233,6 +181,52 @@ public class AccessControlListTest {
         /* stop rejected*/
         response = printer.stop(cookie);
         assertThat(response.contains("not allowed")).isTrue();
+    }
+
+    @Test
+    @Order(4)
+    public void testWithUserNameAlice() throws RemoteException {
+        testUsername = "Alice";
+        String testUserHashedPw = CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword);
+        userRepository.addUser(testUsername, CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "manager");
+
+        String cookie = printer.authenticate(testUsername, CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword), validSessionTime);
+        /* stop allowed*/
+        String  response = printer.stop(cookie);
+        assertThat(response).isEqualTo("Service stop");
+
+        cookie = printer.authenticate(testUsername, CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword), validSessionTime);
+
+        /* start allowed*/
+        response = printer.start(cookie);
+        assertThat(response).isEqualTo("The printing service is started");
+        /* print allowed*/
+        response = printer.print("test1_Alice", "printer1", cookie);
+        assertThat(response.contains("task has been added")).isTrue();
+        /* queue allowed*/
+        response = printer.queue("printer1", cookie);
+        assertThat(response).isEqualTo("Details are shown in log");
+        /* topQueue allowed*/
+        printer.print("test2_Alice", "printer1", cookie);
+        response = printer.topQueue("printer1", 2, cookie);
+        assertThat(response).isEqualTo("The specified job is moved");
+        /* status allowed*/
+        response = printer.status("printer1", cookie);
+        assertThat(response.contains("tasks")).isTrue();
+        /* restart allowed*/
+        response = printer.restart(cookie);
+        assertThat(response).isEqualTo("The printing service is restarted");
+
+        cookie = printer.authenticate(testUsername, CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword), validSessionTime);
+
+        /* setConfig allowed*/
+        response = printer.setConfig("paramAlice", "Alice", cookie);
+        assertThat(response.contains("configuration has been")).isTrue();
+        /* readConfig allowed*/
+        response = printer.readConfig("paramAlice", cookie);
+        assertThat(response.contains("paramAlice")).isTrue();
+
+        printer.stop(cookie);
     }
 
 }

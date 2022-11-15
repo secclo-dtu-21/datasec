@@ -9,8 +9,8 @@ import java.security.NoSuchAlgorithmException;
 
 import dk.dtu.server.PrinterService;
 import dk.dtu.util.configuration.Configuration;
-import dk.dtu.util.repository.AuthRepository;
-import dk.dtu.util.repository.CryptoWrapper;
+import dk.dtu.util.repository.UserRepository;
+import dk.dtu.util.cryto.CryptoWrapper;
 
 public class Client {
 
@@ -26,7 +26,7 @@ public class Client {
 	private static final String url = conf.getServiceUrl();
 	private static final String testUsername = conf.getTestUsername();
 	private static final String testUserPassword = conf.getTestUserPassword();
-	private static final AuthRepository authRepository = new AuthRepository();
+	private static final UserRepository USER_REPOSITORY = new UserRepository();
 	private static final int validSessionTime = conf.getValidSessionTime();
 
 	public static void main(String[] args)
@@ -34,7 +34,7 @@ public class Client {
 
 		String pwHash = CryptoWrapper.hashUserPwPBKDF(testUserPassword);
 		// Add test user to database
-		authRepository.addUser(testUsername, CryptoWrapper.hashSaltAuthKey(pwHash));
+		USER_REPOSITORY.addUser(testUsername, "none",CryptoWrapper.hashSaltAuthKey(pwHash));
 
 		// The following codes describe a typical procedure to use the printing service
 		PrinterService printer = (PrinterService) Naming.lookup(url + "/printer");
@@ -58,7 +58,7 @@ public class Client {
 		System.out.println(printer.stop(cookie));
 
 		// Clear the database
-		authRepository.clearDatabase();
+		USER_REPOSITORY.clearDatabase();
 	}
 
 }

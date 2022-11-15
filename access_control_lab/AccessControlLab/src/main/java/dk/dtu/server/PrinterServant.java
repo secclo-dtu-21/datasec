@@ -11,14 +11,15 @@ import java.util.UUID;
 
 import dk.dtu.security.AccessControlList;
 import dk.dtu.security.AccessControlModel;
+import dk.dtu.security.RoleBasedControl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import dk.dtu.server.entity.Printer;
 import dk.dtu.server.entity.Session;
 import dk.dtu.util.configuration.Configuration;
-import dk.dtu.util.repository.AuthRepository;
-import dk.dtu.util.repository.CryptoWrapper;
+import dk.dtu.util.repository.UserRepository;
+import dk.dtu.util.cryto.CryptoWrapper;
 
 public class PrinterServant extends UnicastRemoteObject implements PrinterService {
 	private static Configuration conf;
@@ -36,7 +37,7 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 	private boolean isStart = false;
 	private Map<String, Session> sessions;
 	private Map<String, String> sessionUsernames;
-	private AuthRepository authRepository;
+	private UserRepository userRepository;
 	private String definedAccessControlModel = conf.getAccessControlModel();
 	private AccessControlModel accessControlModel;
 
@@ -47,12 +48,15 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 		configs = new HashMap<>();
 		sessions = new HashMap<>();
 		sessionUsernames = new HashMap<>();
-		authRepository = new AuthRepository();
+		userRepository = new UserRepository();
 
 		// Set Access Control Mechanism
-		if (definedAccessControlModel.equals("accessControlList")) {
+		if (definedAccessControlModel.equals("accessControlList"))
 			accessControlModel = new AccessControlList();
-		}
+		else if (definedAccessControlModel.equals("roleBasedAccessControl"))
+			accessControlModel = new RoleBasedControl();
+		else
+			logger.error("Invalid Configuration");
 	}
 
 	@Override
@@ -245,7 +249,7 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 	@Override
 	public String authenticate(String username, String password, int validSessionTime) throws RemoteException {
 		// get value from db
-		String passwordHash = authRepository.getUserPasswordHashByName(username);
+		String passwordHash = userRepository.getUserPasswordHashByName(username);
 
 		if (passwordHash == null) // Done so that the response always takes the same time
 			passwordHash = conf.getRandomHash(); // random value

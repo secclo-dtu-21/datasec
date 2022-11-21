@@ -5,7 +5,6 @@ import dk.dtu.util.configuration.Configuration;
 import dk.dtu.util.cryto.CryptoWrapper;
 import dk.dtu.util.repository.UserRepository;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

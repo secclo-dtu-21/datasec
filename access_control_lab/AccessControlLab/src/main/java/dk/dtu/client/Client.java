@@ -12,53 +12,14 @@ import dk.dtu.util.configuration.Configuration;
 import dk.dtu.util.repository.UserRepository;
 import dk.dtu.util.cryto.CryptoWrapper;
 
+/**
+ * Typical client use flow is depicted in the test under the test/java/AccessControl package, including
+ * registering user, user performing operations and cleaning user.
+ */
 public class Client {
-
-	private static final Configuration conf;
-
-	static {
-		try {
-			conf = Configuration.getInstance();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-	private static final String url = conf.getServiceUrl();
-	private static final String testUsername = conf.getTestUsername();
-	private static final String testUserPassword = conf.getTestUserPassword();
-	private static final UserRepository USER_REPOSITORY = new UserRepository();
-	private static final int validSessionTime = conf.getValidSessionTime();
 
 	public static void main(String[] args)
 			throws MalformedURLException, NotBoundException, RemoteException, NoSuchAlgorithmException {
 
-		String pwHash = CryptoWrapper.hashUserPwPBKDF(testUserPassword);
-		// Add test user to database
-		USER_REPOSITORY.addUser(testUsername, "none",CryptoWrapper.hashSaltAuthKey(pwHash));
-
-		// The following codes describe a typical procedure to use the printing service
-		PrinterService printer = (PrinterService) Naming.lookup(url + "/printer");
-		String cookie = printer.authenticate(testUsername, pwHash, validSessionTime);
-		System.out.println(printer.start(cookie));
-		System.out.println(printer.print("test1.txt", "printer1", cookie));
-		System.out.println(printer.print("test2.txt", "printer1", cookie));
-		System.out.println(printer.print("test3.txt", "printer1", cookie));
-		System.out.println(printer.print("test4.txt", "printer2", cookie));
-		System.out.println(printer.print("test5.txt", "printer1", cookie));
-		System.out.println(printer.queue("printer1", cookie));
-		System.out.println(printer.topQueue("printer1", 3, cookie));
-		System.out.println(printer.queue("printer1", cookie));
-		System.out.println(printer.status("printer1", cookie));
-		System.out.println(printer.restart(cookie));
-		cookie = printer.authenticate(testUsername, pwHash, validSessionTime);
-		System.out.println(printer.queue("printer1", cookie));
-		System.out.println(printer.queue("printer2", cookie));
-		System.out.println(printer.setConfig("printers", "2", cookie));
-		System.out.println(printer.readConfig("printers", cookie));
-		System.out.println(printer.stop(cookie));
-
-		// Clear the database
-		USER_REPOSITORY.clearDatabase();
 	}
-
 }

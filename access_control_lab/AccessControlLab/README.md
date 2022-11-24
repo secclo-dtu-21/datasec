@@ -19,19 +19,25 @@ Based on the second lab, the lab added the access control functions. Vital compo
 
 - **AccessControListTest**
 
-  Test whether the access control list mechanism can function properly.
+  Test whether the access control list mechanism can function properly. To run this test, the server needs to run under the access contro list model. Namely, the configuration needs to be `accessControlModel = accessControlList`
+
+  This test will read the user and permission data from the `user.properties` file and use them to initialize the database. Following tests are run based on these data. After running all the test, the added data will be removed fromt the database. 
 
 - **StaffChangeOnAccessControlListTest**
 
-  Test whether the access control list can adpat the change of employees and their permissions.
+  Test whether the access control list can adpat the change of employees and their permissions. To run this test, the server needs to run under the access contro list model. Namely, the configuration needs to be `accessControlModel = accessControlList`.
+
+  This test will read the user and permission data from the `user.properties` file and use them to initialize the database. Following change will be made to these data to reflect the organization change. After running all the test, the added data will be removed fromt the database. 
 
 - **RoleBasedControlTest**
 
-  Test whether the role base access control mechanism can function properly.
+  Test whether the role base access control mechanism can function properly.  To run this test, the server needs to run under the role based access control model. Namely, the configuration needs to be `accessControlModel = roleBasedAccessControl`. This test will read the user and role data from the `user.properties` file and use them to initialize the database. Following tests are run based on these data. After running all the test, the added data will be removed fromt the database. 
 
 - **StaffChangeOnRoleBasedControlTest**
 
-  Test whether the role base access control mechanism adpat the change of employees and their permissions.
+  Test whether the role base access control mechanism adpat the change of employees and their permissions. To run this test, the server needs to run under the role based access control model. Namely, the configuration needs to be `accessControlModel = roleBasedAccessControl`.
+  
+  This test will read the user and role data from the `user.properties` file and use them to initialize the database. Following change will be made to these data to reflect the organization change. After running all the test, the added data will be removed fromt the database. 
 
 ## Logs
 

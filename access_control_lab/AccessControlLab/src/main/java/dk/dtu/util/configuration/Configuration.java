@@ -47,6 +47,22 @@ public class Configuration {
 		return Integer.parseInt((String) userProperties.get("validSessionTime"));
 	}
 
+	public List<String> getACTestUsers() {
+		String testACUser = (String) userProperties.get("testACUser");
+		return new ArrayList<>(Arrays.asList(testACUser.split(", ")));
+	}
+
+	public List<String> getUserACLists() {
+		String testAccessControlList = (String) userProperties.get("testAccessControlList");
+		return new ArrayList<>(Arrays.asList(testAccessControlList.split(", ")));
+	}
+
+	public List<String> getUserRoles() {
+		String testAccessControlRole = (String) userProperties.get("testUserRole");
+		return new ArrayList<>(Arrays.asList(testAccessControlRole.split(", ")));
+	}
+
+
 	/* Get information defined in the service.properties file */
 	public int getServicePort() {
 		return Integer.parseInt((String) serviceProperties.get("port"));

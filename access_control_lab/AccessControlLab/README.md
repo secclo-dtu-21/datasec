@@ -1,4 +1,7 @@
 # Description
+
+## Configuration
+
 Based on the second lab, the lab added the access control functions. Vital components are as follows:
 - **service.properties**
 
@@ -11,6 +14,8 @@ Based on the second lab, the lab added the access control functions. Vital compo
   # AccessControlList
   accessControlModel = accessControlList
   ```
+
+## Tests
 
 - **AccessControListTest**
 
@@ -27,6 +32,8 @@ Based on the second lab, the lab added the access control functions. Vital compo
 - **StaffChangeOnRoleBasedControlTest**
 
   Test whether the role base access control mechanism adpat the change of employees and their permissions.
+
+## Logs
 
 - **Log4j2** (AuthLab/log4j2)
 

@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -59,20 +60,12 @@ public class StaffChangeOnAccessControlListTest {
          * Add all the initial users and related control policy, notice, the role fields are all set to none
          * since here we are using access control list policy rather than role based control policy
          */
-        userRepository.addUser("Alice", CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "none");
-        accessControlRepository.addAccessControlList("Alice", "111111111");
-        userRepository.addUser("Bob", CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "none");
-        accessControlRepository.addAccessControlList("Bob", "000111111");
-        userRepository.addUser("Cecilia", CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "none");
-        accessControlRepository.addAccessControlList("Cecilia", "111001000");
-        userRepository.addUser("David", CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "none");
-        accessControlRepository.addAccessControlList("David", "110000000");
-        userRepository.addUser("Erica", CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "none");
-        accessControlRepository.addAccessControlList("Erica", "110000000");
-        userRepository.addUser("Fred", CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "none");
-        accessControlRepository.addAccessControlList("Fred", "110000000");
-        userRepository.addUser("George", CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "none");
-        accessControlRepository.addAccessControlList("George", "110000000");
+        List<String> acTestUsers = conf.getACTestUsers();
+        List<String> userACLists = conf.getUserACLists();
+        for (int i = 0; i < acTestUsers.size(); i++) {
+            accessControlRepository.addAccessControlList(acTestUsers.get(i), userACLists.get(i));
+            userRepository.addUser(acTestUsers.get(i), CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "none");
+        }
 
         /* Delete user Bob */
         userRepository.deleteUserByName("Bob");

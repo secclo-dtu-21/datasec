@@ -1,0 +1,136 @@
+2022-11-24 14:30:10 INFO  User 'David' with role 'ordinary_user' is forbidden to use service 'setConfig'
+2022-11-24 14:30:10 INFO  User 'David' is requesting the use of service 'readConfig'
+2022-11-24 14:30:10 INFO  User 'David' with role 'ordinary_user' is forbidden to use service 'readConfig'
+2022-11-24 14:30:10 INFO  User 'David' is requesting the use of service 'stop'
+2022-11-24 14:30:11 INFO  User 'David' with role 'ordinary_user' is forbidden to use service 'stop'
+2022-11-24 14:30:12 INFO  User 'Alice' authenticate successfully
+2022-11-24 14:30:12 INFO  User 'Alice' is requesting the use of service 'stop'
+2022-11-24 14:30:12 INFO  User 'Alice' with role 'manager' is allowed to use service 'stop'
+2022-11-24 14:30:13 INFO  User 'Alice' authenticate successfully
+2022-11-24 14:30:13 INFO  User 'Alice' is requesting the use of service 'start'
+2022-11-24 14:30:13 INFO  User 'Alice' with role 'manager' is allowed to use service 'start'
+2022-11-24 14:30:13 INFO  User 'Alice' is requesting the use of service 'print'
+2022-11-24 14:30:14 INFO  User 'Alice' with role 'manager' is allowed to use service 'print'
+2022-11-24 14:30:14 INFO  printer1-test1_Alice has been added to the printing queue
+2022-11-24 14:30:14 INFO  User 'Alice' is requesting the use of service 'queue'
+2022-11-24 14:30:14 INFO  User 'Alice' with role 'manager' is allowed to use service 'queue'
+2022-11-24 14:30:14 INFO  printer1-The current tasks are: 
+<1> <test1_Cecilia>
+<2> <test2_Cecilia>
+<3> <test1_Alice>
+
+2022-11-24 14:30:14 INFO  User 'Alice' is requesting the use of service 'print'
+2022-11-24 14:30:15 INFO  User 'Alice' with role 'manager' is allowed to use service 'print'
+2022-11-24 14:30:15 INFO  printer1-test2_Alice has been added to the printing queue
+2022-11-24 14:30:15 INFO  User 'Alice' is requesting the use of service 'topQueue'
+2022-11-24 14:30:16 INFO  User 'Alice' with role 'manager' is allowed to use service 'topQueue'
+2022-11-24 14:30:16 INFO  printer1-The 2th job has been moved to the top
+2022-11-24 14:30:16 INFO  User 'Alice' is requesting the use of service 'status'
+2022-11-24 14:30:16 INFO  User 'Alice' with role 'manager' is allowed to use service 'status'
+2022-11-24 14:30:16 INFO  printer1-There are 4 tasks in the Queue
+2022-11-24 14:30:16 INFO  User 'Alice' is requesting the use of service 'restart'
+2022-11-24 14:30:17 INFO  User 'Alice' with role 'manager' is allowed to use service 'restart'
+2022-11-24 14:30:17 INFO  printer1-The Queue is cleared
+2022-11-24 14:30:17 INFO  printer2-The Queue is cleared
+2022-11-24 14:30:17 INFO  User 'Alice' authenticate successfully
+2022-11-24 14:30:17 INFO  User 'Alice' is requesting the use of service 'setConfig'
+2022-11-24 14:30:18 INFO  User 'Alice' with role 'manager' is allowed to use service 'setConfig'
+2022-11-24 14:30:18 INFO  The 'paramAlice' configuration has been set to 'Alice'
+2022-11-24 14:30:18 INFO  User 'Alice' is requesting the use of service 'readConfig'
+2022-11-24 14:30:18 INFO  User 'Alice' with role 'manager' is allowed to use service 'readConfig'
+2022-11-24 14:30:18 INFO  The value of the paramAlice configuration is Alice.
+2022-11-24 14:30:18 INFO  User 'Alice' is requesting the use of service 'stop'
+2022-11-24 14:30:19 INFO  User 'Alice' with role 'manager' is allowed to use service 'stop'
+2022-11-24 14:39:47 INFO  User 'Alice' authenticate successfully
+2022-11-24 14:39:47 INFO  User 'Alice' is requesting the use of service 'start'
+2022-11-24 14:39:47 INFO  User 'Alice' with role 'manager' is allowed to use service 'start'
+2022-11-24 14:39:48 INFO  User 'George' authenticate successfully
+2022-11-24 14:39:48 INFO  User 'George' is requesting the use of service 'print'
+2022-11-24 14:39:49 INFO  User 'George' with role 'ordinary_user&service_tech' is allowed to use service 'print'
+2022-11-24 14:39:49 INFO  printer1-file_George has been added to the printing queue
+2022-11-24 14:39:49 INFO  User 'George' is requesting the use of service 'status'
+2022-11-24 14:39:49 INFO  User 'George' with role 'ordinary_user&service_tech' is allowed to use service 'status'
+2022-11-24 14:39:49 INFO  printer1-There are 1 tasks in the Queue
+2022-11-24 14:39:50 INFO  User 'Henry' authenticate successfully
+2022-11-24 14:39:50 INFO  User 'Henry' is requesting the use of service 'print'
+2022-11-24 14:39:50 INFO  User 'Henry' with role 'ordinary_user' is allowed to use service 'print'
+2022-11-24 14:39:50 INFO  printer1-file_Henry has been added to the printing queue
+2022-11-24 14:39:50 INFO  User 'Henry' is requesting the use of service 'stop'
+2022-11-24 14:39:51 INFO  User 'Henry' with role 'ordinary_user' is forbidden to use service 'stop'
+2022-11-24 14:39:52 INFO  User 'Ida' authenticate successfully
+2022-11-24 14:39:52 INFO  User 'Ida' is requesting the use of service 'print'
+2022-11-24 14:39:52 INFO  User 'Ida' with role 'power_user' is allowed to use service 'print'
+2022-11-24 14:39:52 INFO  printer1-file_Ida has been added to the printing queue
+2022-11-24 14:39:52 INFO  User 'Ida' is requesting the use of service 'restart'
+2022-11-24 14:39:53 INFO  User 'Ida' with role 'power_user' is allowed to use service 'restart'
+2022-11-24 14:39:53 INFO  printer1-The Queue is cleared
+2022-11-24 14:39:53 INFO  printer2-The Queue is cleared
+2022-11-24 14:40:24 INFO  User 'Bob' authenticate successfully
+2022-11-24 14:40:25 INFO  User 'Bob' is requesting the use of service 'start'
+2022-11-24 14:40:26 INFO  User 'Cecilia' authenticate successfully
+2022-11-24 14:40:26 INFO  User 'Cecilia' is requesting the use of service 'start'
+2022-11-24 14:40:27 INFO  User 'David' authenticate successfully
+2022-11-24 14:40:27 INFO  User 'David' is requesting the use of service 'start'
+2022-11-24 14:40:28 INFO  User 'Alice' authenticate successfully
+2022-11-24 14:40:28 INFO  User 'Alice' is requesting the use of service 'stop'
+2022-11-24 14:42:32 INFO  User 'Bob' authenticate successfully
+2022-11-24 14:42:32 INFO  User 'Bob' is requesting the use of service 'start'
+2022-11-24 14:42:32 INFO  User 'Bob' is allowed to use service 'start'
+2022-11-24 14:42:32 INFO  User 'Bob' is requesting the use of service 'print'
+2022-11-24 14:42:33 INFO  User 'Bob' is forbidden to use service 'print'
+2022-11-24 14:42:33 INFO  User 'Bob' is requesting the use of service 'queue'
+2022-11-24 14:42:33 INFO  User 'Bob' is forbidden to use service 'queue'
+2022-11-24 14:42:33 INFO  User 'Bob' is requesting the use of service 'print'
+2022-11-24 14:42:33 INFO  User 'Bob' is forbidden to use service 'print'
+2022-11-24 14:42:33 INFO  User 'Bob' is requesting the use of service 'topQueue'
+2022-11-24 14:42:33 INFO  User 'Bob' is forbidden to use service 'topQueue'
+2022-11-24 14:42:33 INFO  User 'Bob' is requesting the use of service 'status'
+2022-11-24 14:42:34 INFO  User 'Bob' is allowed to use service 'status'
+2022-11-24 14:42:34 INFO  printer1-There are 0 tasks in the Queue
+2022-11-24 14:42:34 INFO  User 'Bob' is requesting the use of service 'restart'
+2022-11-24 14:42:34 INFO  User 'Bob' is allowed to use service 'restart'
+2022-11-24 14:42:34 INFO  printer1-The Queue is cleared
+2022-11-24 14:42:34 INFO  printer2-The Queue is cleared
+2022-11-24 14:42:35 INFO  User 'Bob' authenticate successfully
+2022-11-24 14:42:35 INFO  User 'Bob' is requesting the use of service 'setConfig'
+2022-11-24 14:42:35 INFO  User 'Bob' is allowed to use service 'setConfig'
+2022-11-24 14:42:35 INFO  The 'paramBob' configuration has been set to 'Bob'
+2022-11-24 14:42:35 INFO  User 'Bob' is requesting the use of service 'readConfig'
+2022-11-24 14:42:35 INFO  User 'Bob' is allowed to use service 'readConfig'
+2022-11-24 14:42:35 INFO  The value of the paramBob configuration is Bob.
+2022-11-24 14:42:35 INFO  User 'Bob' is requesting the use of service 'stop'
+2022-11-24 14:42:36 INFO  User 'Bob' is allowed to use service 'stop'
+2022-11-24 14:42:36 INFO  User 'Bob' authenticate successfully
+2022-11-24 14:42:36 INFO  User 'Bob' is requesting the use of service 'start'
+2022-11-24 14:42:36 INFO  User 'Bob' is allowed to use service 'start'
+2022-11-24 14:42:37 INFO  User 'Cecilia' authenticate successfully
+2022-11-24 14:42:37 INFO  User 'Cecilia' is requesting the use of service 'start'
+2022-11-24 14:42:37 INFO  User 'Cecilia' is forbidden to use service 'start'
+2022-11-24 14:42:37 INFO  User 'Cecilia' is requesting the use of service 'print'
+2022-11-24 14:42:37 INFO  User 'Cecilia' is allowed to use service 'print'
+2022-11-24 14:42:37 INFO  printer1-test1_Cecilia has been added to the printing queue
+2022-11-24 14:42:37 INFO  User 'Cecilia' is requesting the use of service 'queue'
+2022-11-24 14:42:38 INFO  User 'Cecilia' is allowed to use service 'queue'
+2022-11-24 14:42:38 INFO  printer1-The current tasks are: 
+<1> <test1_Cecilia>
+
+2022-11-24 14:42:38 INFO  User 'Cecilia' is requesting the use of service 'print'
+2022-11-24 14:42:38 INFO  User 'Cecilia' is allowed to use service 'print'
+2022-11-24 14:42:38 INFO  printer1-test2_Cecilia has been added to the printing queue
+2022-11-24 14:42:38 INFO  User 'Cecilia' is requesting the use of service 'topQueue'
+2022-11-24 14:42:38 INFO  User 'Cecilia' is allowed to use service 'topQueue'
+2022-11-24 14:42:38 INFO  printer1-The 2th job has been moved to the top
+2022-11-24 14:42:38 INFO  User 'Cecilia' is requesting the use of service 'status'
+2022-11-24 14:42:39 INFO  User 'Cecilia' is forbidden to use service 'status'
+2022-11-24 14:42:39 INFO  User 'Cecilia' is requesting the use of service 'restart'
+2022-11-24 14:42:39 INFO  User 'Cecilia' is allowed to use service 'restart'
+2022-11-24 14:42:39 INFO  printer1-The Queue is cleared
+2022-11-24 14:42:39 INFO  printer2-The Queue is cleared
+2022-11-24 14:42:39 INFO  User 'Cecilia' authenticate successfully
+2022-11-24 14:42:39 INFO  User 'Cecilia' is requesting the use of service 'setConfig'
+2022-11-24 14:42:40 INFO  User 'Cecilia' is forbidden to use service 'setConfig'
+2022-11-24 14:42:40 INFO  User 'Cecilia' is requesting the use of service 'readConfig'
+2022-11-24 14:42:40 INFO  User 'Cecilia' is forbidden to use service 'readConfig'
+2022-11-24 14:42:40 INFO  User 'Cecilia' is requesting the use of service 'stop'
+2022-11-24 14:42:40 INFO  User 'Cecilia' is forbidden to use service 'stop'
+2022-11-24 14:42:41 INFO  User 'David' authenticate successfully

@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -44,11 +45,18 @@ public class RoleBasedControlTest {
 
     @BeforeAll
     public static void init() throws MalformedURLException, NotBoundException, RemoteException {
+        String testUserHashedPw = CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword);
+        List<String> acTestUsers = conf.getACTestUsers();
+        List<String> userRoles = conf.getUserRoles();
+        for (int i = 0; i < acTestUsers.size(); i++) {
+            userRepository.addUser(acTestUsers.get(i), CryptoWrapper.hashSaltAuthKey(testUserHashedPw), userRoles.get(i));
+        }
+
         printer = (PrinterService) Naming.lookup(url + "/printer");
     }
 
-    @AfterEach
-    public void clean() {
+    @AfterAll
+    public static void clean() {
         userRepository.clearDatabase();
     }
 
@@ -56,8 +64,6 @@ public class RoleBasedControlTest {
     @Order(1)
     public void testWithUsernameBob() throws RemoteException {
         testUsername = "Bob";
-        String testUserHashedPw = CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword);
-        userRepository.addUser(testUsername, CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "janitor&service_tech");
 
         String cookie = printer.authenticate(testUsername, CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword), validSessionTime);
         assertThat(cookie.matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")).isTrue();
@@ -101,8 +107,6 @@ public class RoleBasedControlTest {
     @Order(2)
     public void testWithUsernameCecilia() throws RemoteException {
         testUsername = "Cecilia";
-        String testUserHashedPw = CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword);
-        userRepository.addUser(testUsername, CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "power_user");
 
         String cookie = printer.authenticate(testUsername, CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword), validSessionTime);
         assertThat(cookie.matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")).isTrue();
@@ -148,8 +152,6 @@ public class RoleBasedControlTest {
     @Order(3)
     public void testWithUsernameDavid() throws RemoteException {
         testUsername = "David";
-        String testUserHashedPw = CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword);
-        userRepository.addUser(testUsername, CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "ordinary_user");
 
         String cookie = printer.authenticate(testUsername, CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword), validSessionTime);
         assertThat(cookie.matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")).isTrue();
@@ -187,8 +189,6 @@ public class RoleBasedControlTest {
     @Order(4)
     public void testWithUserNameAlice() throws RemoteException {
         testUsername = "Alice";
-        String testUserHashedPw = CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword);
-        userRepository.addUser(testUsername, CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "manager");
 
         String cookie = printer.authenticate(testUsername, CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword), validSessionTime);
         /* stop allowed*/

@@ -13,6 +13,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -53,13 +54,13 @@ public class StaffChangeOnRoleBasedControlTest {
     public void testWithStaffChange_withRoleBasedControl_shouldBeSuccess() throws RemoteException {
         String testUserHashedPw = CryptoWrapper.hashUserPwPBKDF(testUserPlaintextPassword);
         /* Add all the initial users */
-        userRepository.addUser("Alice", CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "manager");
-        userRepository.addUser("Bob", CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "janitor&service_tech");
-        userRepository.addUser("Cecilia", CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "power_user");
-        userRepository.addUser("David", CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "ordinary_user");
-        userRepository.addUser("Erica", CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "ordinary_user");
-        userRepository.addUser("Fred", CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "ordinary_user");
-        userRepository.addUser("George", CryptoWrapper.hashSaltAuthKey(testUserHashedPw), "ordinary_user");
+        List<String> acTestUsers = conf.getACTestUsers();
+        List<String> userRoles = conf.getUserRoles();
+        for (int i = 0; i < acTestUsers.size(); i++) {
+            userRepository.addUser(acTestUsers.get(i), CryptoWrapper.hashSaltAuthKey(testUserHashedPw), userRoles.get(i));
+        }
+
+
         /* Delete user Bob */
         userRepository.deleteUserByName("Bob");
         /* Change the role of George */
